@@ -8,8 +8,9 @@
     "format:check": "prettier --list-different \"src/**/*.{js,jsx,css,html,json}\" ",
     "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel src/index.html",
-    "deploy": "gh-pages -d dist"
+    "build": "parcel build src/index.html",
+    "start": "parcel src/index.html --open",
+    "heroku-postbuild": "npm install && npm run build"
   },
   "keywords": [],
   "author": "",
