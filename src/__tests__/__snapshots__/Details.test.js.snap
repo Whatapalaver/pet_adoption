@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`snapshot 1`] = `
+<h1>
+  loading....
+</h1>
+`;
+
+exports[`snapshot 2`] = `
+<h1>
+  loading....
+</h1>
+`;
