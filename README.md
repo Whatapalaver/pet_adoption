@@ -20,3 +20,5 @@ React was set-up from scratch and did not use the ubiquitous create-react-app. I
 
 - Testing via Jest `npm run test` or `npm t`
 - If you need to refresh the snapshots due to structural chnages `npm run test:update`
+- If you want Jest to "watch" for changes in the code base `npm run test:watch`
+- Check coverage with Istanbul `npm run test:coverage`
