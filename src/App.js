@@ -1,12 +1,10 @@
 import React from "react";
-import { render } from "react-dom";
-import { Router } from "@reach/router";
+import { Router, Link } from "@reach/router";
 import pf from "petfinder-client";
 import Results from "./Results";
 import Details from "./Details";
 import SearchParams from "./SearchParams";
 import { Provider } from "./SearchContext";
-import NavBar from "./NavBar";
 
 const petfinder = pf({
   key: process.env.API_KEY,
@@ -22,54 +20,65 @@ class App extends React.Component {
       animal: "",
       breed: "",
       breeds: [],
-      handleAnimalChange: this.handleAnimalChange.bind(this),
-      handleBreedChange: this.handleBreedChange.bind(this),
-      handleLocationChange: this.handleLocationChange.bind(this),
-      getBreeds: this.getBreeds.bind(this)
+      handleAnimalChange: this.handleAnimalChange,
+      handleBreedChange: this.handleBreedChange,
+      handleLocationChange: this.handleLocationChange,
+      getBreeds: this.getBreeds
     };
   }
-
-  handleLocationChange(event) {
+  handleLocationChange = event => {
     this.setState({
       location: event.target.value
     });
-  }
-  handleAnimalChange(event) {
+  };
+  handleAnimalChange = event => {
     this.setState(
       {
-        animal: event.target.value,
-        breed: ""
+        animal: event.target.value
       },
       this.getBreeds
     );
-  }
-  handleBreedChange(event) {
+  };
+  handleBreedChange = event => {
     this.setState({
       breed: event.target.value
     });
-  }
+  };
   getBreeds() {
     if (this.state.animal) {
-      petfinder.breed.list({ animal: this.state.animal }).then(data => {
-        if (
-          data.petfinder &&
-          data.petfinder.breeds &&
-          Array.isArray(data.petfinder.breeds.breed)
-        ) {
-          this.setState({ breeds: data.petfinder.breeds.breed });
-        } else {
-          this.setState({ breeds: [] });
-        }
-      });
+      petfinder.breed
+        .list({ animal: this.state.animal })
+        .then(data => {
+          if (
+            data.petfinder &&
+            data.petfinder.breeds &&
+            Array.isArray(data.petfinder.breeds.breed)
+          ) {
+            this.setState({
+              breeds: data.petfinder.breeds.breed
+            });
+          } else {
+            this.setState({ breeds: [] });
+          }
+        })
+        .catch(console.error);
     } else {
-      this.setState({ breeds: [] });
+      this.setState({
+        breeds: []
+      });
     }
   }
-
   render() {
     return (
       <div>
-        <NavBar />
+        <header>
+          <Link to="/">Adopt Me!</Link>
+          <Link to="/search-params">
+            <span aria-label="search" role="img">
+              🔍
+            </span>
+          </Link>
+        </header>
         <Provider value={this.state}>
           <Router>
             <Results path="/" />
@@ -81,4 +90,5 @@ class App extends React.Component {
     );
   }
 }
-render(<App />, document.getElementById("root"));
+
+export default App;
